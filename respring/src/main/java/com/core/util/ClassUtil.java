@@ -2,6 +2,7 @@ package com.core.util;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +22,9 @@ public class ClassUtil {
 	 * */
 	private static final String FILE_PROTOCAL = "file";
 
+	/**
+	 * 提取包中的类。
+	 * */
 	public static Set<Class<?>> extractPacketClass(String packetName) throws Exception{
 		//类加载器
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -42,6 +46,9 @@ public class ClassUtil {
 		return classSet;
 	}
 
+	/**
+	 * 递归取得文件.
+	 * */
 	private static void extractFileClass(Set<Class<?>> classSet, File fileSource, String packetName) {
 		// TODO Auto-generated method stub
 		//递归获取文件
@@ -72,6 +79,9 @@ public class ClassUtil {
 		}
 	}
 
+	/**
+	 * 添加进入set.
+	 * */
 	private  static void addFileToSet(Set<Class<?>> classSet, String absolutePath, String packetName) {
 		// TODO Auto-generated method stub
 		//获取class文件，添加到集合中
@@ -81,6 +91,9 @@ public class ClassUtil {
 		classSet.add(targetClass);	
 	}
 
+	/**
+	 * 加载类.
+	 * */
 	private static Class<?> loadClass(String className) {
 		// TODO Auto-generated method stub
 		Class<?> classTemp = null;
@@ -93,5 +106,18 @@ public class ClassUtil {
 		return classTemp;
 	}
 
-	
+	/**
+	 * 反射返回新的实例。
+	 * */
+	public static <T>T getNewInstance(Class<T> clazz ,boolean accisble) {
+		try {
+			Constructor<T> constructor = clazz.getDeclaredConstructor();
+			constructor.setAccessible(accisble);
+			return (T)constructor.newInstance();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			log.error("newInstance" + clazz + e);
+			throw new RuntimeException();
+		} 
+	}
 }

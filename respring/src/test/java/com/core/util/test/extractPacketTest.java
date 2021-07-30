@@ -6,11 +6,10 @@ import org.junit.Assert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.core.annotation.Service;
 import com.core.util.ClassUtil;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
+@Service
 public class extractPacketTest {
 
 	@Test
