@@ -3,6 +3,7 @@ package com.core.util;
 import java.io.File;
 import java.io.FileFilter;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
@@ -120,4 +121,21 @@ public class ClassUtil {
 			throw new RuntimeException();
 		} 
 	}
+	
+	/**
+	 * 为类设置属性值.
+	 * 为clazz的filed成员变量设置instance实例
+	 * */
+	public static void setFiledForClass(Object clazz,Field filed,Object instance,boolean accessible) {
+		filed.setAccessible(accessible);
+		try {
+			filed.set(clazz, instance);
+		}catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			log.error("反射失效,无法完成设值");
+			throw new RuntimeException(e);
+		}
+	}
+	
+	
 }
